@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface PersonRepository extends CrudRepository<Person, Long> {
     List<Person> findAll();
-
+    List<Person> findByLicenseIsNull();
+    List<Person> findByLicenseIsNotNull();
 }

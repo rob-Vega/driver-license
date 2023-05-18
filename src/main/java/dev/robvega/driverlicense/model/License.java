@@ -1,7 +1,11 @@
 package dev.robvega.driverlicense.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -12,14 +16,18 @@ public class License {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String number;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Future
+    @NotNull
     private Date expirationDate;
     @NotBlank
     private String state;
-    @Column(updatable=false)
+    @Column(updatable = false)
     private Date createdAt;
     private Date updatedAt;
-    @OneToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="person_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "person_id")
+    @NotNull
     private Person person;
     public License() {
 
@@ -84,24 +92,10 @@ public class License {
     @PrePersist
     protected void onCreate() {
         this.createdAt = new Date();
-        this.number = String.format("%06d", this.id);
     }
 
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = new Date();
-    }
-
-    @Override
-    public String toString() {
-        return "License{" +
-                "id=" + id +
-                ", number='" + number + '\'' +
-                ", expirationDate=" + expirationDate +
-                ", state='" + state + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", person=" + person +
-                '}';
     }
 }

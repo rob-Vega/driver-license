@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -16,7 +17,23 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public void createPerson(Person person) {
+    public void create(Person person) {
         personRepository.save(person);
+    }
+
+    public List<Person> findByLicenseIsNull() {
+        return personRepository.findByLicenseIsNull();
+    }
+
+    public List<Person> findByLicenseIsNotNull() {
+        return personRepository.findByLicenseIsNotNull();
+    }
+
+    public Person findById(Long id) {
+        Optional<Person> optionalPerson = personRepository.findById(id);
+        if (optionalPerson.isPresent()) {
+            return optionalPerson.get();
+        }
+        return null;
     }
 }

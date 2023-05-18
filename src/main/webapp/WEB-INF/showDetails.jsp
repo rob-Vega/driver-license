@@ -20,20 +20,21 @@
 <body>
    <main class="container mt-5">
 	   	<div class="row justify-content-center">
-	   	    <form:form class="mt-5 col-md-5" action="/persons/new" method="POST" modelAttribute="Person">
-                <h1 class="mb-3">New Person</h1>
-                <div class="mb-3">
-                    <form:label class="form-label" path="firstName">First Name</form:label>
-                    <form:input class="form-control" path="firstName"/>
-                    <form:errors class="text-danger" path="firstName"/>
+	   	    <div class="mt-5 col-md-8">
+	   	        <h1>${person.firstName} ${person.lastName}</h1>
+	   	        <div class="row mt-4">
+	   	            <p class="col-6">License Number:</p>
+	   	            <p class="col-6">${person.license.number}</p>
+	   	        </div>
+	   	        <div class="row">
+                    <p class="col-6">State:</p>
+                    <p class="col-6">${person.license.state}</p>
                 </div>
-                <div class="mb-3">
-                    <form:label class="form-label" path="lastName">Last Name</form:label>
-                    <form:input class="form-control" path="lastName"/>
-                    <form:errors class="text-danger" path="lastName"/>
+                <div class="row">
+                    <p class="col-6">Expiration Date:</p>
+                    <p class="col-6">${person.license.expirationDate}</p>
                 </div>
-                <input class="btn btn-primary float-end" type="submit" value="Create"/>
-            </form:form>
+	   	    </div>
 	   	</div>
    </main>
 </body>

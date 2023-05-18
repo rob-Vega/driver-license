@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -23,17 +24,16 @@ public class MainController {
     private LicenseService licenseService;
 
     @GetMapping("/")
-    public String index() {
-        System.out.println("Hola");
-        return "license.jsp";
+    public String index(Model model) {
+        model.addAttribute(
+                "personList",
+                personService.findByLicenseIsNotNull()
+        );
+        return "index.jsp";
     }
 
     @GetMapping("/persons/new")
     public String newPerson(@ModelAttribute("Person") Person person) {
-        personService
-                .findAll()
-                .stream()
-                .forEach(p -> System.out.println(p.toString()));
         return "person.jsp";
     }
 
@@ -47,8 +47,8 @@ public class MainController {
             System.out.println("has errors");
             return "person.jsp";
         }
-        personService.createPerson(person);
-        return "redirect:/persons/new";
+        personService.create(person);
+        return "redirect:/";
     }
 
     @GetMapping("/licenses/new")
@@ -56,10 +56,9 @@ public class MainController {
             Model model,
             @ModelAttribute("License") License license
     ) {
-        System.out.println(personService.findAll());
         model.addAttribute(
                 "personList",
-                personService.findAll()
+                personService.findByLicenseIsNull()
         );
         return "license.jsp";
     }
@@ -68,13 +67,26 @@ public class MainController {
     public String createNewLicence(
             @Valid
             @ModelAttribute("License") License license,
-            BindingResult result
+            BindingResult result,
+            Model model
     ) {
-        System.out.println(result.getAllErrors());
         if (result.hasErrors()) {
+            model.addAttribute(
+                    "personList",
+                    personService.findByLicenseIsNull()
+            );
             return "license.jsp";
         }
-        return "redirect:/licenses/new";
+        licenseService.create(license);
+        return "redirect:/";
     }
 
+    @GetMapping("/persons/{id}")
+    public String showDetail(Model model, @PathVariable("id") Long id) {
+        model.addAttribute(
+                "person",
+                personService.findById(id)
+        );
+        return "showDetails.jsp";
+    }
 }

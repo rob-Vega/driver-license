@@ -25,11 +25,6 @@ public class Person {
 
     }
 
-    public Person(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
     public Long getId() {
         return id;
     }
@@ -86,17 +81,5 @@ public class Person {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = new Date();
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", license=" + license +
-                '}';
     }
 }

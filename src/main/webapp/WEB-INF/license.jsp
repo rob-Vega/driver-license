@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta charset="ISO-8859-1">
-    <title>Create New Licence</title>
+    <title>Create New License</title>
     <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css"> <!-- change to match your file/naming structure -->
     <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
@@ -22,25 +22,33 @@
 <main class="container mt-5">
     <div class="row justify-content-center">
         <form:form class="mt-5 col-md-5" action="/licenses/new" method="POST" modelAttribute="License">
-            <h1 class="mb-3">New Person</h1>
+            <h1 class="mb-3">New License</h1>
             <div class="mb-3">
                 <form:label class="form-label" path="person">Person</form:label>
                 <form:select class="form-select" path="person">
-                    <form:options items="${personList}" itemLabel="firstName"/>
+                    <c:forEach items="${personList}" var="person">
+                        <form:option value="${person.id} ">
+                            ${person.firstName} ${person.lastName}
+                        </form:option>
+                    </c:forEach>
                 </form:select>
                 <form:errors class="text-danger" path="person"/>
-            </div>
-            <div class="mb-3">
-                <form:label class="form-label" path="expirationDate">Expiration Date</form:label>
-                <form:input class="form-control" path="expirationDate" type="date"/>
-                <form:errors class="text-danger" path="expirationDate"/>
             </div>
             <div class="mb-3">
                 <form:label class="form-label" path="state">State</form:label>
                 <form:input class="form-control" path="state"/>
                 <form:errors class="text-danger" path="state"/>
             </div>
-            <input class="btn btn-primary float-end" type="submit" value="Submit"/>
+            <div class="mb-3">
+                <form:label class="form-label" path="expirationDate">Expiration Date</form:label>
+                <form:input
+                    class="form-control"
+                    path="expirationDate"
+                    type="date"
+                />
+                <form:errors class="text-danger" path="expirationDate"/>
+            </div>
+            <input class="btn btn-primary float-end" type="submit" value="Create"/>
         </form:form>
     </div>
 </main>
